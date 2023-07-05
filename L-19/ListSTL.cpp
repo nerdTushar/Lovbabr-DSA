@@ -29,7 +29,7 @@ int main(){
     l.pop_back();    // pop_back() method
     l.pop_front();   // pop_front() method
 
-    l.erase(l.begin());  // erase(pointer) method
+    l.erase(l.begin());  // erase(iterator) method
     cout<<"After erase : ";
     for(int i:l){
         cout<<i<<" ";
