@@ -2,7 +2,7 @@
 using namespace std;
 
 class Human {
-    public:
+    protected:
       int height;
       int weight;
       int age;
@@ -22,6 +22,10 @@ class Male : public Human {
       void sleep(){
         cout<<"Male sleeping"<<endl;
       }
+
+      int getHeight(){
+        return this -> height;
+      }
 };
 
 int main(){
@@ -35,6 +39,6 @@ int main(){
     // object1.sleep();
 
     Male m1;
-    cout<< m1.height <<endl;
+    cout<< m1.getHeight() <<endl;
     return 0;
 }
