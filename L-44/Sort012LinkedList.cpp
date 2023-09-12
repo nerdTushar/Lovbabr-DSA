@@ -42,7 +42,7 @@ void printSingly(SinglyNode* &headSingly){
     cout<<endl;
 }
 
-void sort012Singly(SinglyNode* &headSingly,SinglyNode* &tailSingly){
+void sort012Singly1(SinglyNode* &headSingly,SinglyNode* &tailSingly){
     // empty list
     if(headSingly == NULL || headSingly -> next == NULL){
         return;
@@ -82,6 +82,58 @@ void sort012Singly(SinglyNode* &headSingly,SinglyNode* &tailSingly){
     }
 }
 
+void insertAtEnd(SinglyNode* &tail,SinglyNode* curr){
+    tail -> next = curr;
+    tail = curr;
+}
+
+void sort012Singly2(SinglyNode* &headSingly,SinglyNode* &tailSingly){
+    // Write your code here.
+    SinglyNode* zeroHead = new SinglyNode(-1);
+    SinglyNode* zeroTail = zeroHead;
+    SinglyNode* oneHead = new SinglyNode(-1);
+    SinglyNode* oneTail = oneHead;
+    SinglyNode* twoHead = new SinglyNode(-1);
+    SinglyNode* twoTail = twoHead;
+
+    // create separate list for 0s, 1s, 2s
+    SinglyNode* curr = headSingly;
+    while(curr != NULL){
+        int value = curr -> data;
+        if(value == 0){
+            insertAtEnd(zeroTail,curr);
+        }else if(value == 1){
+            insertAtEnd(oneTail,curr);
+        }else{
+            insertAtEnd(twoTail,curr);
+        }
+        curr = curr -> next;
+    }
+
+    // merge 3 sublist
+    if(oneHead -> next != NULL){  
+        // 1's list non-empty
+        zeroTail -> next = oneHead -> next;
+    }else{  
+        // 1's list empty
+        zeroTail -> next = twoHead -> next;
+    }
+    oneTail -> next = twoHead -> next;
+    twoTail -> next = NULL;
+    tailSingly = twoTail;
+
+    // setup head
+    headSingly = zeroHead -> next;
+
+    // delete dummy nodes
+    zeroHead -> next = NULL;
+    delete zeroHead;
+    oneHead -> next = NULL;
+    delete oneHead;
+    twoHead -> next = NULL;
+    delete twoHead;
+}
+
 int main(){
     // Singly Linked List
     SinglyNode* node1 = new SinglyNode(1);
@@ -96,7 +148,7 @@ int main(){
     printSingly(headSingly);
     cout<<"head : "<< headSingly -> data <<endl;
     cout<<"tail : "<< tailSingly -> data <<endl;
-    sort012Singly(headSingly,tailSingly);
+    sort012Singly2(headSingly,tailSingly);
     printSingly(headSingly);
     cout<<"head : "<< headSingly -> data <<endl;
     cout<<"tail : "<< tailSingly -> data <<endl;
