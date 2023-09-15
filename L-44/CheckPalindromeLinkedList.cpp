@@ -55,12 +55,41 @@ Node* getMid(Node* head){
     return slow;
 }
 
+Node* reverse(Node* head){
+    Node* previous = NULL;
+    Node* curr = head;
+    while(curr != NULL){
+        Node* forward = curr -> next;
+        curr -> next = previous;
+        previous = curr;
+        curr = forward;
+    }
+    return previous;
+}
+
 bool isPalindrome2(Node* head){
     if(head == NULL || head -> next == NULL){
         return true;
     }
     // step 1 : find middle
     Node* middle = getMid(head);
+    // step 2 : reverse list after middle
+    Node* temp = middle -> next;
+    middle -> next = reverse(temp);
+    // step 3 : compare both halves
+    Node* head1 = head;
+    Node* head2 = middle -> next;
+    while(head2 != NULL){
+        if(head1 -> data != head2 -> data){
+            return false;
+        }
+        head1 = head1 -> next;
+        head2 = head2 -> next;
+    }
+    // step 4 : repeat step 2 (optional)
+    temp = middle -> next;
+    middle -> next = reverse(temp);
+    return true;
 }
 
 bool isPalindrome1(Node* head){
@@ -88,7 +117,8 @@ int main(){
     Node* head = node1;
     Node* tail = node1;
     insertAtTail(tail,2);
-    insertAtTail(tail,1);
+    insertAtTail(tail,2);
+    insertAtTail(tail,4);
     print(head);
     cout<<"Head : "<<head -> data<<endl;
     cout<<"Tail : "<<tail -> data<<endl;
